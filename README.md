@@ -191,5 +191,5 @@ mysql> select * from test_sql.test order by a;
 
 but the db may not be consistent in this way always, because:
 
-- the output sql may not in the origin server exec sequence when there are multiple occurrent connection.
+- the output sql may not in the origin server exec sequence when there are multiple conccurent connection.
 - some sql like **update test_sql.test set b = now();** will not get the same result when just replay it.
