@@ -244,7 +244,10 @@ func (m *mysqlStream) handlePacket(seq uint8, payload []byte, srvPackets chan *p
 		fmt.Println("# binary exec a prepare stmt rewrite it like: ")
 		fmt.Println(string(stmt.WriteToText()))
 	case mysql.COM_STMT_CLOSE:
-		// we can just ignore it
+		// https://dev.mysql.com/doc/internals/en/com-stmt-close.html
+		// delete the stmt will not be use any more
+		stmtID := binary.LittleEndian.Uint32(payload[1:5])
+		delete(m.stmtID2query, stmtID)
 	default:
 	}
 }
